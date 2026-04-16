@@ -71,7 +71,7 @@ auto test_rr_parse() -> bool {
         std::byte{0x08},
     };
 
-    auto [rr, consumed] = DnsResourceRecord::parse(raw);
+    auto [rr, consumed] = DnsResourceRecord::parse(raw, 0);
 
     if (rr.name.size() != 2) {
         std::cerr << "rr_parse: expected 2 labels, got " << rr.name.size() << std::endl;
