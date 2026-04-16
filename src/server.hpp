@@ -18,6 +18,16 @@ class DnsServer {
     static auto create_response(std::span<const std::byte> request) -> std::vector<std::byte> {
         auto msg = DnsMessage::parse(request);
         msg.header.qr = true;
+        msg.header.ancount = 1;
+
+        DnsResourceRecord answer{};
+        answer.name = {"codecrafters", "io"};
+        answer.type = 1;
+        answer.cls = 1;
+        answer.ttl = 60;
+        answer.rdata = {std::byte{0x08}, std::byte{0x08}, std::byte{0x08}, std::byte{0x08}};
+        msg.answers.push_back(std::move(answer));
+
         return msg.serialize();
     }
   public:
